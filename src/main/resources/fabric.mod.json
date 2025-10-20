@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "munchmap11r",
+  "version": "${version}",
+  "name": "munchMap11R",
+  "description": "A QOL mod for Munchymc",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/munchmap11r/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-datagen": [
+      "me.jmulins.munchmap11r.client.Munchmap11rDataGenerator"
+    ],
+    "client": [
+      "me.jmulins.munchmap11r.client.Munchmap11rClient"
+    ],
+    "main": [
+      "me.jmulins.munchmap11r.Munchmap11r"
+    ]
+  },
+  "mixins": [
+    "munchmap11r.mixins.json",
+    {
+      "config": "munchmap11r.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
