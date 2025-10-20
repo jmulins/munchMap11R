@@ -18,14 +18,15 @@ public class Munchmap11rClient implements ClientModInitializer {
     public void onInitializeClient() {
         System.out.println("LAUNCHED!!!!!!");
 
-//        PhelperConfig config = PhelperConfig.INSTANCE;
-//        System.out.println("Config loaded!");
-        
-        // Use ClientCommandRegistrationCallback for client-side commands
+        // Initialize config
+        PhelperConfig config = PhelperConfig.INSTANCE;
+        System.out.println("Vigilance config loaded!");
+
+        // Register command to open Vigilance GUI
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(ClientCommandManager.literal("phleper")
                     .executes(context -> {
-                        // Open config GUI on client side
+                        // Open Vigilance GUI
                         PhelperConfig.INSTANCE.openGui();
                         return 1;
                     }));
@@ -34,9 +35,11 @@ public class Munchmap11rClient implements ClientModInitializer {
         AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
             BlockState state = world.getBlockState(pos);
             ItemStack handItem = player.getMainHandStack();
+
             /* Manual spectator check is necessary because AttackBlockCallbacks
                fire before the spectator check */
-            if (handItem.isIn(ItemTags.PICKAXES) && handItem.getMaxDamage() - handItem.getDamage() <= 69) { // TODO add the hard coded value into the config
+            if (handItem.isIn(ItemTags.PICKAXES) &&
+                    handItem.getMaxDamage() - handItem.getDamage() <= PhelperConfig.INSTANCE.getDurabilityThreshold()) {
                 TitleUtils.showTitleClientSimple("YOOOO");
                 player.playSound(SoundEvents.ENTITY_GHAST_HURT, 2f, 1f);
             }

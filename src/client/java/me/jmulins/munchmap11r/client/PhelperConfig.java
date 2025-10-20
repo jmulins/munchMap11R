@@ -1,77 +1,64 @@
 package me.jmulins.munchmap11r.client;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
+import gg.essential.vigilance.Vigilant;
+import gg.essential.vigilance.data.Property;
+import gg.essential.vigilance.data.PropertyType;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Path;
 
-public class PhelperConfig {
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+public class PhelperConfig extends Vigilant {
     public static final PhelperConfig INSTANCE = new PhelperConfig();
 
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Enable Feature",
+            description = "Toggle the main feature on or off",
+            category = "General"
+    )
     public boolean enableFeature = true;
+
+    @Property(
+            type = PropertyType.TEXT,
+            name = "Player Name",
+            description = "Enter the player name",
+            category = "General"
+    )
     public String playerName = "";
+
+    @Property(
+            type = PropertyType.SLIDER,
+            name = "Scale",
+            description = "Adjust the scale value",
+            category = "General",
+            min = 0,
+            max = 100
+    )
     public int scale = 50;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Show Notifications",
+            description = "Toggle notifications on or off",
+            category = "General"
+    )
     public boolean showNotifications = false;
 
+    @Property(
+            type = PropertyType.NUMBER,
+            name = "Durability Threshold",
+            description = "Durability threshold for tool warnings",
+            category = "Alerts",
+            min = 1,
+            max = 500
+    )
+    public int durabilityThreshold = 69;
+
     private PhelperConfig() {
-        load();
+        super(new File("./config/phelper.toml"));
+        initialize();
     }
 
-    private File getConfigFile() {
-        Path configDir = FabricLoader.getInstance().getConfigDir();
-        return configDir.resolve("phelper.json").toFile();
-    }
-
-    public void openGui() {
-        MinecraftClient.getInstance().send(() -> {
-            MinecraftClient.getInstance().setScreen(new ConfigScreen(MinecraftClient.getInstance().currentScreen));
-        });
-    }
-
-    public void load() {
-        try {
-            File file = getConfigFile();
-            if (!file.exists()) {
-                save();
-                return;
-            }
-
-            try (FileReader reader = new FileReader(file)) {
-                PhelperConfig loaded = GSON.fromJson(reader, PhelperConfig.class);
-                if (loaded != null) {
-                    this.enableFeature = loaded.enableFeature;
-                    this.playerName = loaded.playerName;
-                    this.scale = loaded.scale;
-                    this.showNotifications = loaded.showNotifications;
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("Failed to load config: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    public void save() {
-        try {
-            File file = getConfigFile();
-            file.getParentFile().mkdirs();
-            try (FileWriter writer = new FileWriter(file)) {
-                GSON.toJson(this, writer);
-            }
-        } catch (Exception e) {
-            System.err.println("Failed to save config: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    // Getters
+    // Getters (optional, you can access fields directly)
     public boolean isFeatureEnabled() {
         return enableFeature;
     }
@@ -87,4 +74,15 @@ public class PhelperConfig {
     public boolean shouldShowNotifications() {
         return showNotifications;
     }
+
+    public int getDurabilityThreshold() {
+        return durabilityThreshold;
+    }
+    // In PhelperConfig.java
+    public void openGui() {
+        net.minecraft.client.MinecraftClient.getInstance().send(() -> {
+            net.minecraft.client.MinecraftClient.getInstance().setScreen(gui());
+        });
+    }
+
 }

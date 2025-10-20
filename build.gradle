@@ -30,6 +30,8 @@ fabricApi {
 repositories {
     mavenCentral()
     maven { url "https://repo.essential.gg/repository/maven-public" }
+    maven {    name = "Terraformers"
+        url = "https://maven.terraformersmc.com/"}
 }
 
 dependencies {
@@ -38,13 +40,25 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+    // Mod Menu for testing (not included in final jar)
+    modLocalRuntime("com.terraformersmc:modmenu:16.0.0-rc.1")
+
+    // Kotlin standard library (required for Vigilance)
+    modImplementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+    modImplementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
+
     // Elementa and UniversalCraft (platform-agnostic versions)
+    // Using 1.21.9 version as 1.21.10 is not yet available
     modImplementation("gg.essential:elementa:710")
-    modImplementation("gg.essential:universalcraft-1.21-fabric:436")
+    modImplementation("gg.essential:universalcraft-1.21.9-fabric:436")
+    modImplementation("gg.essential:vigilance:312")
 
     // Include in jar
+    include("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+    include("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
     include("gg.essential:elementa:710")
-    include("gg.essential:universalcraft-1.21-fabric:436")
+    include("gg.essential:vigilance:312")
+    include("gg.essential:universalcraft-1.21.9-fabric:436")
 }
 
 processResources {
