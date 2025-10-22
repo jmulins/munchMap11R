@@ -3,6 +3,10 @@ package me.jmulins.munchmap11r.client;
 import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.Property;
 import gg.essential.vigilance.data.PropertyType;
+import net.minecraft.registry.Registries;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Identifier;
 
 import java.io.File;
 
@@ -11,78 +15,110 @@ public class PhelperConfig extends Vigilant {
 
     @Property(
             type = PropertyType.SWITCH,
-            name = "Enable Feature",
-            description = "Toggle the main feature on or off",
-            category = "General"
+            name = "Pickaxe breaking warning",
+            description = "Toggle pickaxe breaking warning on or off",
+            category = "Alerts",
+            subcategory = "Pickaxe durability warning"
     )
-    public boolean enableFeature = true;
+    public boolean enablePickaxeBreakingWarning = false;
+
+
+
 
     @Property(
             type = PropertyType.TEXT,
-            name = "Player Name",
-            description = "Enter the player name",
-            category = "General"
-    )
-    public String playerName = "";
-
-    @Property(
-            type = PropertyType.SLIDER,
-            name = "Scale",
-            description = "Adjust the scale value",
-            category = "General",
-            min = 0,
-            max = 100
-    )
-    public int scale = 50;
-
-    @Property(
-            type = PropertyType.SWITCH,
-            name = "Show Notifications",
-            description = "Toggle notifications on or off",
-            category = "General"
-    )
-    public boolean showNotifications = false;
-
-    @Property(
-            type = PropertyType.NUMBER,
             name = "Durability Threshold",
-            description = "Durability threshold for tool warnings",
+            description = "Durability threshold for pickaxe breaking warning",
             category = "Alerts",
-            min = 1,
-            max = 500
+            subcategory = "Pickaxe durability warning"
     )
-    public int durabilityThreshold = 69;
+    public String durabilityThresholdText = "69";
+    private int durabilityThresholdInt = 69;
+
+
+    @Property(
+            type = PropertyType.TEXT,
+            name = "Pickaxe alert text",
+            description = "Title text for pickaxe breaking warning",
+            category = "Alerts",
+            subcategory = "Pickaxe durability warning"
+    )
+    public String pickaxeAlertText = "Pickaxe alert";
+
+    @Property(
+            type = PropertyType.TEXT,
+            name = "Pickaxe alert sound",
+            description = "Sound for the pickaxe breaking alert",
+            category = "Alerts",
+            subcategory = "Pickaxe durability warning"
+    )
+    public String pickaxeAlertSoundText = "entity.ghast.hurt";
+    public SoundEvent pickaxeAlertSoundSoundEvent = SoundEvents.ENTITY_GHAST_HURT;
+
 
     private PhelperConfig() {
         super(new File("./config/phelper.toml"));
         initialize();
+        checkAllCheckableValues();
+
     }
 
-    // Getters (optional, you can access fields directly)
-    public boolean isFeatureEnabled() {
-        return enableFeature;
+    /**
+     * Get the selected sound event based on the selector index
+     */
+    public SoundEvent getPickaxeAlertSelectedSound() {
+        Identifier soundId = Identifier.of(pickaxeAlertSoundText);
+        SoundEvent sound = Registries.SOUND_EVENT.get(soundId);
+        if (sound == null) {
+            pickaxeAlertSoundText = pickaxeAlertSoundSoundEvent.id().getPath();
+            return pickaxeAlertSoundSoundEvent;
+        }
+        pickaxeAlertSoundSoundEvent = sound;
+        return sound;
+
     }
 
-    public String getPlayerName() {
-        return playerName;
+
+    /**
+     * Get the validated durability threshold as an integer.
+     * If the text value is invalid, returns a clamped value and updates the text field.
+     */
+    public int getPickaxeAlertDurabilityThreshold() {
+        try {
+            int value = Integer.parseInt(durabilityThresholdText.trim());
+            // Clamp to valid range
+            if (value < 1) {
+                durabilityThresholdText = "1";
+                durabilityThresholdInt = 1;
+                return durabilityThresholdInt;
+            }
+            if (value > 2031) {
+                durabilityThresholdText = "2031";
+                durabilityThresholdInt = 2031;
+                return durabilityThresholdInt;
+            }
+            durabilityThresholdInt = value;
+            return value;
+        } catch (NumberFormatException e) {
+            // Invalid input, default to 69
+            durabilityThresholdText = String.valueOf(durabilityThresholdInt);
+            return durabilityThresholdInt;
+        }
     }
 
-    public int getScale() {
-        return scale;
-    }
 
-    public boolean shouldShowNotifications() {
-        return showNotifications;
-    }
-
-    public int getDurabilityThreshold() {
-        return durabilityThreshold;
-    }
     // In PhelperConfig.java
     public void openGui() {
+        checkAllCheckableValues();
         net.minecraft.client.MinecraftClient.getInstance().send(() -> {
             net.minecraft.client.MinecraftClient.getInstance().setScreen(gui());
         });
+    }
+
+
+    public void checkAllCheckableValues(){
+        getPickaxeAlertDurabilityThreshold();
+        getPickaxeAlertSelectedSound();
     }
 
 }
