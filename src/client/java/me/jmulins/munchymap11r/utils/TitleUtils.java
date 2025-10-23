@@ -1,4 +1,4 @@
-package me.jmulins.munchmap11r.utils;
+package me.jmulins.munchymap11r.utils;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;

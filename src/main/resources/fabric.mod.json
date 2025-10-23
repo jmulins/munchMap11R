@@ -7,17 +7,17 @@
   "authors": [],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/munchmap11r/icon.png",
+  "icon": "assets/munchymap11r/icon.png",
   "environment": "client",
   "entrypoints": {
     "fabric-datagen": [
-      "me.jmulins.munchmap11r.client.Munchmap11rDataGenerator"
+      "me.jmulins.munchymap11r.client.Munchymap11rDataGenerator"
     ],
     "client": [
-      "me.jmulins.munchmap11r.client.Munchmap11rClient"
+      "me.jmulins.munchymap11r.client.Munchymap11rClient"
     ],
     "main": [
-      "me.jmulins.munchmap11r.Munchmap11r"
+      "me.jmulins.munchymap11r.Munchymap11r"
     ]
   },
   "mixins": [

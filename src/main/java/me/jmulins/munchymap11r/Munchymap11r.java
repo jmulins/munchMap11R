@@ -1,8 +1,8 @@
-package me.jmulins.munchmap11r;
+package me.jmulins.munchymap11r;
 
 import net.fabricmc.api.ModInitializer;
 
-public class Munchmap11r implements ModInitializer {
+public class Munchymap11r implements ModInitializer {
 
     @Override
     public void onInitialize() {

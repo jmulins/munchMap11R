@@ -1,9 +1,9 @@
-package me.jmulins.munchmap11r.client;
+package me.jmulins.munchymap11r.client;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
-public class Munchmap11rDataGenerator implements DataGeneratorEntrypoint {
+public class Munchymap11rDataGenerator implements DataGeneratorEntrypoint {
 
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {

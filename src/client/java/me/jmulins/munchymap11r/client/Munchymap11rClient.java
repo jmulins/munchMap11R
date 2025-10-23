@@ -1,7 +1,8 @@
-package me.jmulins.munchmap11r.client;
+package me.jmulins.munchymap11r.client;
 
-import me.jmulins.munchmap11r.commands.PhelperCommand;
-import me.jmulins.munchmap11r.utils.TitleUtils;
+import me.jmulins.munchymap11r.commands.PhelperCommand;
+import me.jmulins.munchymap11r.commands.PhelperWaypointsCommand;
+import me.jmulins.munchymap11r.utils.TitleUtils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.minecraft.item.ItemStack;
@@ -9,17 +10,17 @@ import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.ActionResult;
 
 
-public class Munchmap11rClient implements ClientModInitializer {
+public class Munchymap11rClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        System.out.println("LAUNCHED!!!!!!");
 
         // Initialize config
         PhelperConfig config = PhelperConfig.INSTANCE;
         System.out.println("Vigilance config loaded!");
 
         PhelperCommand.execute();
+        PhelperWaypointsCommand.execute();
 
         registerPickaxeHitEvent();
 

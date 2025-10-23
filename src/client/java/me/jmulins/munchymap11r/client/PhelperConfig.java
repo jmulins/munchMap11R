@@ -1,4 +1,4 @@
-package me.jmulins.munchmap11r.client;
+package me.jmulins.munchymap11r.client;
 
 import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.Property;
@@ -44,6 +44,7 @@ public class PhelperConfig extends Vigilant {
             subcategory = "Pickaxe durability warning"
     )
     public String pickaxeAlertText = "Pickaxe alert";
+
 
     @Property(
             type = PropertyType.TEXT,
@@ -106,6 +107,11 @@ public class PhelperConfig extends Vigilant {
         }
     }
 
+    public void checkAllCheckableValues(){
+        getPickaxeAlertDurabilityThreshold();
+        getPickaxeAlertSelectedSound();
+    }
+
 
     // In PhelperConfig.java
     public void openGui() {
@@ -116,9 +122,6 @@ public class PhelperConfig extends Vigilant {
     }
 
 
-    public void checkAllCheckableValues(){
-        getPickaxeAlertDurabilityThreshold();
-        getPickaxeAlertSelectedSound();
-    }
+
 
 }

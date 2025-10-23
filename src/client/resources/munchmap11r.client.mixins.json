@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "me.jmulins.munchmap11r.mixin.client",
+  "package": "me.jmulins.munchymap11r.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
   ],
