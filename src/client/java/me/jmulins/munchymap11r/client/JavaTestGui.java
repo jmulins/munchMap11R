@@ -5,6 +5,7 @@ import gg.essential.elementa.UIComponent;
 import gg.essential.elementa.WindowScreen;
 import gg.essential.elementa.components.ScrollComponent;
 import gg.essential.elementa.components.UIBlock;
+import gg.essential.elementa.components.UIContainer;
 import gg.essential.elementa.components.input.UITextInput;
 import gg.essential.elementa.constraints.*;
 import gg.essential.elementa.constraints.animation.AnimatingConstraints;
@@ -105,7 +106,7 @@ public class JavaTestGui extends WindowScreen {
 
     UIComponent waypoint1 = new UIBlock()
             .setX(new CenterConstraint())
-            .setY(new SiblingConstraint(5f))
+            .setY(ConstraintsKt.plus(new SiblingConstraint(), new PixelConstraint(5f)))
             .setWidth(new PixelConstraint(150f))
             .setHeight(new PixelConstraint(32f))
             .setColor(new Color(0,0,0, 100))
@@ -115,7 +116,26 @@ public class JavaTestGui extends WindowScreen {
 
     UIComponent waypoint2 = new UIBlock()
             .setX(new CenterConstraint())
-            .setY(new SiblingConstraint(5f))
+            .setY(ConstraintsKt.plus(new SiblingConstraint(), new PixelConstraint(5f)))
+            .setWidth(new PixelConstraint(150f))
+            .setHeight(new PixelConstraint(32f))
+            .setColor(new Color(0,0,0, 100))
+            .setChildOf(waypointCategory)
+            .enableEffect(new OutlineEffect(Color.GREEN, 2f));
+
+
+    UIComponent waypoint3 = new UIBlock()
+            .setX(new CenterConstraint())
+            .setY(ConstraintsKt.plus(new SiblingConstraint(), new PixelConstraint(5f)))
+            .setWidth(new PixelConstraint(150f))
+            .setHeight(new PixelConstraint(32f))
+            .setColor(new Color(0,0,0, 100))
+            .setChildOf(waypointCategory)
+            .enableEffect(new OutlineEffect(Color.GREEN, 2f));
+
+    UIComponent waypoint4 = new UIBlock()
+            .setX(new CenterConstraint())
+            .setY(ConstraintsKt.plus(new SiblingConstraint(), new PixelConstraint(5f)))
             .setWidth(new PixelConstraint(150f))
             .setHeight(new PixelConstraint(32f))
             .setColor(new Color(0,0,0, 100))
@@ -156,6 +176,11 @@ public class JavaTestGui extends WindowScreen {
 //                    .setColor(new Color(r.nextInt(0, 256),r.nextInt(0, 256),r.nextInt(0, 256), 100))
 //                    .setChildOf(waypointsList);
 //        }
+
+
+        float nChildrenInCategory = waypointCategory.getChildren().size();
+
+        waypointCategory.setHeight(new PixelConstraint(((nChildrenInCategory*37f)+5f)));
         inputNameBox.onMouseClick((uiComponent, uiClickEvent) -> {
             inputNameText.grabWindowFocus();
             return null;
