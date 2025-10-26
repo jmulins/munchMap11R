@@ -1,6 +1,6 @@
 package me.jmulins.munchymap11r.commands;
 
-import me.jmulins.munchymap11r.client.JavaTestGui;
+import me.jmulins.munchymap11r.gui.JavaTestGui;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;

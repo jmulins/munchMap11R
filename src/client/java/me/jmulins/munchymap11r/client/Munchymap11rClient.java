@@ -34,7 +34,7 @@ public class Munchymap11rClient implements ClientModInitializer {
                     handItem.isIn(ItemTags.PICKAXES) &&
                     handItem.getMaxDamage() - handItem.getDamage() <= PhelperConfig.INSTANCE.getPickaxeAlertDurabilityThreshold()) {
                 TitleUtils.showTitleClientSimple(PhelperConfig.INSTANCE.pickaxeAlertText);
-                player.playSound(PhelperConfig.INSTANCE.getPickaxeAlertSelectedSound(), 2f, 1f);
+                player.playSound(PhelperConfig.INSTANCE.getPickaxeAlertSelectedSound(), PhelperConfig.INSTANCE.pickaxeAlertVolume, 1f);
             }
 
             return ActionResult.PASS;

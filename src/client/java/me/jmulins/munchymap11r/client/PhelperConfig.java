@@ -57,6 +57,15 @@ public class PhelperConfig extends Vigilant {
     public SoundEvent pickaxeAlertSoundSoundEvent = SoundEvents.ENTITY_GHAST_HURT;
 
 
+    @Property(
+            type = PropertyType.PERCENT_SLIDER,
+            name = "Pickaxe alert volume",
+            description = "Sound volume for the pickaxe breaking alert",
+            category = "Alerts",
+            subcategory = "Pickaxe durability warning"
+    )
+    public float pickaxeAlertVolume = 1f;
+
     private PhelperConfig() {
         super(new File("./config/phelper.toml"));
         initialize();
