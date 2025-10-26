@@ -6,6 +6,7 @@ import gg.essential.elementa.components.UIContainer;
 import gg.essential.elementa.components.UIText;
 import gg.essential.elementa.components.input.UITextInput;
 import gg.essential.elementa.constraints.*;
+import gg.essential.elementa.dsl.ConstraintsKt;
 import gg.essential.elementa.effects.OutlineEffect;
 
 import java.awt.Color;
@@ -22,6 +23,9 @@ public class WaypointCategoryComponent extends UIComponent {
     private UITextInput titleText;
     private boolean isExpanded = true;
     private UIContainer headerContainer, waypointsContainer;
+    private ButtonComponent collapseButton, removeButton, newWaypointButton;
+
+    static final float BASE_PADDING = 5f;
 
     public WaypointCategoryComponent(String categoryName) {
         this(categoryName, Color.ORANGE);
@@ -34,7 +38,7 @@ public class WaypointCategoryComponent extends UIComponent {
 
         // Configure the container
         this.setX(new CenterConstraint());
-        this.setY(new SiblingConstraint(5f));
+        this.setY(new SiblingConstraint(BASE_PADDING));
         this.setWidth(new RelativeConstraint(0.9f));
         this.setHeight(new ChildBasedSizeConstraint());
         this.setColor(new ConstantColorConstraint(new Color(0, 0, 0, 100)));
@@ -44,23 +48,55 @@ public class WaypointCategoryComponent extends UIComponent {
                 .setX(new PixelConstraint(0f))
                 .setY(new PixelConstraint(0f))
                 .setWidth(new RelativeConstraint(1f))
-                .setHeight(new PixelConstraint(20f))
+                .setHeight(new PixelConstraint(BASE_PADDING*4f))
                 .enableEffect(new OutlineEffect(borderColor, 2f))
                 .setChildOf(this);
 
         titleText = (UITextInput) new UITextInput(categoryName)
-                .setX(new PixelConstraint(5f))
-                .setY(new CenterConstraint())
-                .setWidth(new PixelConstraint(20f))
+                .setX(new PixelConstraint(BASE_PADDING))
+                .setY(new  CenterConstraint())
+                .setWidth(new RelativeConstraint(0.4f))
+                .setChildOf(headerContainer);
+
+
+        collapseButton = (ButtonComponent) new ButtonComponent("Collapse")
+                .setY(new CenterConstraint());
+
+        removeButton = (ButtonComponent) new ButtonComponent("Remove")
+                .setY(new CenterConstraint());
+
+        newWaypointButton = (ButtonComponent) new ButtonComponent("New waypoint")
+                .setY(new CenterConstraint());
+
+
+
+
+        collapseButton
+                .setX(ConstraintsKt.minus(new RelativeConstraint(1f),new PixelConstraint(collapseButton.getWidth()+BASE_PADDING)))
+                .setChildOf(headerContainer);
+
+        removeButton
+                .setX(ConstraintsKt.minus(new RelativeConstraint(1f),new PixelConstraint(collapseButton.getWidth() + removeButton.getWidth()+BASE_PADDING*2f)))
+                .setChildOf(headerContainer);
+
+        newWaypointButton
+                .setX(ConstraintsKt.minus(new RelativeConstraint(1f),new PixelConstraint(collapseButton.getWidth() + removeButton.getWidth() + newWaypointButton.getWidth()+BASE_PADDING*3f)))
                 .setChildOf(headerContainer);
 
 
         waypointsContainer = (UIContainer) new UIContainer()
                 .setX(new PixelConstraint(0f))
-                .setY(new PixelConstraint(24f))
+                .setY(new PixelConstraint((BASE_PADDING*4f)+4f))
                 .setWidth(new RelativeConstraint(1f))
                 .setHeight(new PixelConstraint(33f))
                 .setChildOf(this);
+
+
+
+        titleText.onMouseClick((comp, event) -> {
+            comp.grabWindowFocus();
+            return null;
+        });
 
 
 //

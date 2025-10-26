@@ -76,32 +76,6 @@ public class JavaTestGui extends WindowScreen {
 
 
 
-//    UIComponent exampleWaypointBox = new UIBlock()
-//            .setX(new CenterConstraint())
-//            .setY(new SiblingConstraint())
-//            .setWidth(new RelativeConstraint(0.9f))
-//            .setHeight(new RelativeConstraint(0.1f))
-//            .setColor(new Color(255,0 ,0, 100))
-//            .setChildOf(waypointsList);
-
-//    UIComponent exampleWaypointBox = new UIBlock()
-//            .setX(new CenterConstraint())
-//            .setY(new SiblingConstraint())
-//            .setWidth(new PixelConstraint(0f))
-//            .setHeight(new PixelConstraint(0f))
-//            .setColor(new Color(255,0 ,0, 100))
-//            .setChildOf(waypointsList);
-
-//    UIComponent waypointCategory = new UIBlock()
-//            .setX(ConstraintsKt.minus(new CenterConstraint(), new PixelConstraint(2f)))
-//            .setY(new SiblingConstraint(5f))
-//            .setWidth(new RelativeConstraint(0.9f))
-//            .setHeight(new ChildBasedSizeConstraint())
-//            .setColor(new Color(0,0,0, 100))
-//            .setChildOf(waypointsList)
-//            .enableEffect(new OutlineEffect(BORDERS_COLOR, 2f));
-
-
     WaypointCategoryComponent waypointCategory = (WaypointCategoryComponent) new WaypointCategoryComponent("test123")
             .setChildOf(waypointsList);
 
@@ -110,45 +84,6 @@ public class JavaTestGui extends WindowScreen {
 
     WaypointComponent waypoint13 = (WaypointComponent) new WaypointComponent("test name2", 1, 2, 3, Color.GREEN);
 //            .setChildOf(waypointCategory);
-
-
-//    UIComponent waypoint1 = new UIBlock()
-//            .setX(new CenterConstraint())
-//            .setY(ConstraintsKt.plus(new SiblingConstraint(), new PixelConstraint(5f)))
-//            .setWidth(new PixelConstraint(150f))
-//            .setHeight(new PixelConstraint(32f))
-//            .setColor(new Color(0,0,0, 100))
-//            .setChildOf(waypointCategory)
-//            .enableEffect(new OutlineEffect(Color.GREEN, 2f));
-//
-//
-//    UIComponent waypoint2 = new UIBlock()
-//            .setX(new CenterConstraint())
-//            .setY(ConstraintsKt.plus(new SiblingConstraint(), new PixelConstraint(5f)))
-//            .setWidth(new PixelConstraint(150f))
-//            .setHeight(new PixelConstraint(32f))
-//            .setColor(new Color(0,0,0, 100))
-//            .setChildOf(waypointCategory)
-//            .enableEffect(new OutlineEffect(Color.GREEN, 2f));
-//
-//
-//    UIComponent waypoint3 = new UIBlock()
-//            .setX(new CenterConstraint())
-//            .setY(ConstraintsKt.plus(new SiblingConstraint(), new PixelConstraint(5f)))
-//            .setWidth(new PixelConstraint(150f))
-//            .setHeight(new PixelConstraint(32f))
-//            .setColor(new Color(0,0,0, 100))
-//            .setChildOf(waypointCategory)
-//            .enableEffect(new OutlineEffect(Color.GREEN, 2f));
-//
-//    UIComponent waypoint4 = new UIBlock()
-//            .setX(new CenterConstraint())
-//            .setY(ConstraintsKt.plus(new SiblingConstraint(), new PixelConstraint(5f)))
-//            .setWidth(new PixelConstraint(150f))
-//            .setHeight(new PixelConstraint(32f))
-//            .setColor(new Color(0,0,0, 100))
-//            .setChildOf(waypointCategory)
-//            .enableEffect(new OutlineEffect(Color.GREEN, 2f));
 
 
 //    UIComponent exampleWaypointBox = new UIBlock()
@@ -186,7 +121,7 @@ public class JavaTestGui extends WindowScreen {
 //        }
         waypointCategory.addWaypoint(waypoint11);
         waypointCategory.addWaypoint(waypoint12);
-//        waypointCategory.addWaypoint(waypoint13);
+        waypointCategory.addWaypoint(waypoint13);
 //        float nChildrenInCategory = waypointCategory.getChildren().size();
 
 //        waypointCategory.setHeight(new PixelConstraint(((nChildrenInCategory*37f)+5f)));
