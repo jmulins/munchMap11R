@@ -1,0 +1,1 @@
+QOL mod for munchymc
