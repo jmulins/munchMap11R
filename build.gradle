@@ -40,6 +40,23 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+
+
+    // JUnit 5 (Jupiter)
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
+
+    // AssertJ for better assertions
+    testImplementation 'org.assertj:assertj-core:3.24.2'
+
+    // Mockito for mocking
+    testImplementation 'org.mockito:mockito-core:5.7.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.7.0'
+
+
+
+
+
     // Mod Menu for testing (not included in final jar)
     modLocalRuntime("com.terraformersmc:modmenu:16.0.0-rc.1")
 
@@ -89,6 +106,18 @@ java {
     }
     withSourcesJar()
 }
+
+
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+    }
+}
+
+
 
 jar {
     from("LICENSE") {

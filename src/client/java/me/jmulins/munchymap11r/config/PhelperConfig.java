@@ -1,14 +1,18 @@
-package me.jmulins.munchymap11r.client;
+package me.jmulins.munchymap11r.config;
 
 import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.Property;
 import gg.essential.vigilance.data.PropertyType;
+import me.jmulins.munchymap11r.gui.components.WaypointCategoryComponent;
+import me.jmulins.munchymap11r.gui.components.WaypointComponent;
 import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.List;
 
 public class PhelperConfig extends Vigilant {
     public static final PhelperConfig INSTANCE = new PhelperConfig();
@@ -65,6 +69,21 @@ public class PhelperConfig extends Vigilant {
             subcategory = "Pickaxe durability warning"
     )
     public float pickaxeAlertVolume = 1f;
+
+
+
+
+    // Waypoints config
+
+    @Property(
+            type = PropertyType.SELECTOR,
+            name = "waypoints list",
+            description = "the list of waypoints",
+            category = "Waypoints",
+            hidden = true
+    )
+    public HashMap<WaypointCategoryComponent, List<WaypointComponent>> waypointsMap = new HashMap<>();
+
 
     private PhelperConfig() {
         super(new File("./config/phelper.toml"));

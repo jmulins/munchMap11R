@@ -1,42 +1,50 @@
 package me.jmulins.munchymap11r.gui.components;
 
 import gg.essential.elementa.UIComponent;
-import gg.essential.elementa.components.UIBlock;
 import gg.essential.elementa.components.UIContainer;
-import gg.essential.elementa.components.UIText;
 import gg.essential.elementa.components.input.UITextInput;
 import gg.essential.elementa.constraints.*;
 import gg.essential.elementa.dsl.ConstraintsKt;
 import gg.essential.elementa.effects.OutlineEffect;
 
 import java.awt.Color;
+import java.util.UUID;
 
-/**
- * Reusable waypoint component
- */
-public class WaypointComponent extends UIComponent {
+public class WaypointComponent extends UIContainer {
 
-    private final String name;
-    private final int x, y, z;
     private UITextInput nameText;
     private UITextInput xText, yText, zText;
     private UIContainer coordinatesContainer;
     private ButtonComponent removeButton;
+    private UUID uuid = UUID.randomUUID();
+    private Runnable onRemoveCallback;
 
+    // Store current values that get updated on change
+    private String currentName;
+    private int currentX, currentY, currentZ;
 
+    public UUID getUuid() {
+        return uuid;
+    }
 
     public WaypointComponent(String name, int x, int y, int z) {
         this(name, x, y, z, Color.GREEN);
     }
 
+    public WaypointComponent(UUID uuid, String name, int x, int y, int z) {
+        this(name, x, y, z, Color.GREEN);
+        this.uuid = uuid;
+    }
+
+
     public WaypointComponent(String name, int x, int y, int z, Color outlineColor) {
-        // UIBlock constructor without color - we'll set it separately
         super();
 
-        this.name = name;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+
+        this.currentName = name;
+        this.currentX = x;
+        this.currentY = y;
+        this.currentZ = z;
 
         // Configure the container
         this.setX(new CenterConstraint());
@@ -48,44 +56,72 @@ public class WaypointComponent extends UIComponent {
 
         // Add waypoint name
         nameText = (UITextInput) new UITextInput(name)
-        .setX(new PixelConstraint(5f))
-        .setY(new CenterConstraint())
+                .setX(new PixelConstraint(5f))
+                .setY(new CenterConstraint())
                 .setWidth(new RelativeConstraint(0.25f))
-//       .setTextScale(new ConstantColorConstraint(1.2f));
-//        .setColor(Color.WHITE)
-        .setChildOf(this);
+                .setChildOf(this);
 
+
+        nameText.onUpdate(newText -> {
+            currentName = newText;
+            return null;
+        });
 
         coordinatesContainer = (UIContainer) new UIContainer()
                 .setX(new RelativeConstraint(0.3f))
                 .setY(new CenterConstraint())
                 .setHeight(new PixelConstraint(10f))
                 .setWidth(new RelativeConstraint(0.4f))
-//                .enableEffect(new OutlineEffect(outlineColor, 2f))
                 .setChildOf(this);
-
 
         xText = (UITextInput) new UITextInput(String.valueOf(x))
                 .setX(new RelativeConstraint(0f))
                 .setY(new PixelConstraint(0f, true))
                 .setWidth(new RelativeConstraint(0.3f))
-//                .setColor(new ConstantColorConstraint(Color.WHITE))
                 .setChildOf(coordinatesContainer);
+
+
+        // Update X when text changes
+        xText.onUpdate(newText -> {
+            try {
+                currentX = Integer.parseInt(newText.trim());
+            } catch (NumberFormatException e) {
+                // Keep old value if invalid
+            }
+            return null;
+        });
 
         yText = (UITextInput) new UITextInput(String.valueOf(y))
                 .setX(new RelativeConstraint(0.35f))
                 .setY(new PixelConstraint(0f, true))
                 .setWidth(new RelativeConstraint(0.3f))
-//                .setColor(new ConstantColorConstraint(Color.WHITE))
                 .setChildOf(coordinatesContainer);
+
+        // Update Y when text changes
+        yText.onUpdate(newText -> {
+            try {
+                currentY = Integer.parseInt(newText.trim());
+            } catch (NumberFormatException e) {
+                // Keep old value if invalid
+            }
+            return null;
+        });
 
         zText = (UITextInput) new UITextInput(String.valueOf(z))
                 .setX(new RelativeConstraint(0.7f))
                 .setY(new PixelConstraint(0f, true))
                 .setWidth(new RelativeConstraint(0.3f))
-//                .setColor(new ConstantColorConstraint(Color.WHITE))
                 .setChildOf(coordinatesContainer);
 
+        // Update Z when text changes
+        zText.onUpdate(newText -> {
+            try {
+                currentZ = Integer.parseInt(newText.trim());
+            } catch (NumberFormatException e) {
+                // Keep old value if invalid
+            }
+            return null;
+        });
 
         removeButton = (ButtonComponent) new ButtonComponent("Remove")
                 .setX(new SiblingConstraint(10f))
@@ -94,38 +130,15 @@ public class WaypointComponent extends UIComponent {
                 .setChildOf(this);
 
 
-
-
-        // Add coordinates
-//        coordsText = new UIText(String.format("X: %d, Y: %d, Z: %d", x, y, z));
-//        coordsText.setX(new PixelConstraint(5f));
-//        coordsText.setY(new SiblingConstraint(3f));
-////        coordsText.setTextScale(new ConstantColorConstraint(0.8f));
-//        coordsText.setColor(new ConstantColorConstraint(Color.GRAY));
-//        coordsText.setChildOf(this);
-
-        // Add hover effect
-//        this.onMouseEnter((comp) -> {
-//            this.setColor(new ConstantColorConstraint(new Color(50, 50, 50, 150)));
-//            return null;
-//        });
-//
-//        this.onMouseLeave((comp) -> {
-//            this.setColor(new ConstantColorConstraint(new Color(0, 0, 0, 100)));
-//            return null;
-//        });
-//
-//        // Add click handler
-//        this.onMouseClick((comp, event) -> {
-//            System.out.println("Clicked waypoint: " + name);
-//            // Add your click logic here (teleport, copy coords, etc.)
-//            return null;
-//        });
-
-
+        removeButton.onMouseClick((comp, event) -> {
+            if (onRemoveCallback != null) {
+                onRemoveCallback.run();
+            }
+            return null;
+        });
 
         UITextInput[] coords = {xText, yText, zText};
-        for (UITextInput singleCoord : coords){
+        for (UITextInput singleCoord : coords) {
             singleCoord.onMouseClick((comp, event) -> {
                 comp.grabWindowFocus();
                 return null;
@@ -136,35 +149,28 @@ public class WaypointComponent extends UIComponent {
             comp.grabWindowFocus();
             return null;
         });
-
-
     }
 
-
-
+    public void setOnRemove(Runnable callback) {
+        this.onRemoveCallback = callback;
+    }
 
 
     public String getWaypointName() {
-        return name;
+        return currentName;
     }
 
     public int getWaypointX() {
-        return x;
+        return currentX;
     }
 
     public int getWaypointY() {
-        return y;
+        return currentY;
     }
 
     public int getWaypointZ() {
-        return z;
+        return currentZ;
     }
 
-//    public void updateName(String newName) {
-//        nameText.setText(newName);
-//    }
 
-//    public void updateCoordinates(int newX, int newY, int newZ) {
-//        coordsText.setText(String.format("X: %d, Y: %d, Z: %d", newX, newY, newZ));
-//    }
 }

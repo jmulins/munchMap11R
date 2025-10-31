@@ -1,6 +1,6 @@
 package me.jmulins.munchymap11r.commands;
 
-import me.jmulins.munchymap11r.gui.JavaTestGui;
+import me.jmulins.munchymap11r.gui.WaypointsGui;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
@@ -12,7 +12,7 @@ public class PhelperWaypointsCommand implements ICommand{
             dispatcher.register(ClientCommandManager.literal("phleperwaypoints")
                     .executes(context -> {
                         MinecraftClient.getInstance().send(() -> {
-                            MinecraftClient.getInstance().setScreen(new JavaTestGui());
+                            MinecraftClient.getInstance().setScreen(new WaypointsGui());
                         });
                         return 1;
                     }));

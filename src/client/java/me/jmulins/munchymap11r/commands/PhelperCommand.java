@@ -1,6 +1,6 @@
 package me.jmulins.munchymap11r.commands;
 
-import me.jmulins.munchymap11r.client.PhelperConfig;
+import me.jmulins.munchymap11r.config.PhelperConfig;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 

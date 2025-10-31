@@ -2,6 +2,7 @@ package me.jmulins.munchymap11r.client;
 
 import me.jmulins.munchymap11r.commands.PhelperCommand;
 import me.jmulins.munchymap11r.commands.PhelperWaypointsCommand;
+import me.jmulins.munchymap11r.config.PhelperConfig;
 import me.jmulins.munchymap11r.utils.TitleUtils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
