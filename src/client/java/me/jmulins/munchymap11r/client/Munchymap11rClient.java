@@ -1,5 +1,6 @@
 package me.jmulins.munchymap11r.client;
 
+import me.jmulins.munchymap11r.commands.ItemGuideCommand;
 import me.jmulins.munchymap11r.commands.PhelperCommand;
 import me.jmulins.munchymap11r.commands.PhelperWaypointsCommand;
 import me.jmulins.munchymap11r.config.PhelperConfig;
@@ -22,6 +23,7 @@ public class Munchymap11rClient implements ClientModInitializer {
 
         PhelperCommand.execute();
         PhelperWaypointsCommand.execute();
+        ItemGuideCommand.execute();
 
         registerPickaxeHitEvent();
 
