@@ -71,20 +71,6 @@ public class PhelperConfig extends Vigilant {
     public float pickaxeAlertVolume = 1f;
 
 
-
-
-    // Waypoints config
-
-    @Property(
-            type = PropertyType.SELECTOR,
-            name = "waypoints list",
-            description = "the list of waypoints",
-            category = "Waypoints",
-            hidden = true
-    )
-    public HashMap<WaypointCategoryComponent, List<WaypointComponent>> waypointsMap = new HashMap<>();
-
-
     private PhelperConfig() {
         super(new File("./config/phelper.toml"));
         initialize();
@@ -145,8 +131,25 @@ public class PhelperConfig extends Vigilant {
     public void openGui() {
         checkAllCheckableValues();
         net.minecraft.client.MinecraftClient.getInstance().send(() -> {
-            net.minecraft.client.MinecraftClient.getInstance().setScreen(gui());
+            try {
+                net.minecraft.client.MinecraftClient.getInstance().setScreen(gui());
+            } catch (Exception e) {
+                System.err.println("Failed to open Vigilance GUI:");
+                e.printStackTrace();
+
+                // Send error to chat
+                net.minecraft.client.MinecraftClient client = net.minecraft.client.MinecraftClient.getInstance();
+                if (client.player != null) {
+                    client.player.sendMessage(
+                            net.minecraft.text.Text.literal("§cError opening config: " + e.getMessage()),
+                            false
+                    );
+                }
+            }
         });
+//        net.minecraft.client.MinecraftClient.getInstance().send(() -> {
+//            net.minecraft.client.MinecraftClient.getInstance().setScreen(gui());
+//        });
     }
 
 

@@ -68,16 +68,15 @@ public class SingleItemGuideGui extends WindowScreen {
                 .setWidth(new RelativeConstraint(1f))
                 .setHeight(new RelativeConstraint(0.049f))
                 .setChildOf(containerBox);
-
-        String itemWorldStr = item.get("world").getAsString();
-        if (!itemWorldStr.isEmpty()) {
-            UIWrappedText itemWorld = (UIWrappedText) new UIWrappedText("World : " + itemWorldStr)
-                    .setX(new PixelConstraint(5f))
-                    .setY(new RelativeConstraint(0.25f))
-                    .setWidth(new RelativeConstraint(1f))
-                    .setHeight(new RelativeConstraint(0.049f))
-                    .setChildOf(containerBox);
-        }
+if (!item.get("world").isJsonNull()) {
+    String itemWorldStr = item.get("world").getAsString();
+        UIWrappedText itemWorld = (UIWrappedText) new UIWrappedText("World : " + itemWorldStr)
+                .setX(new PixelConstraint(5f))
+                .setY(new RelativeConstraint(0.25f))
+                .setWidth(new RelativeConstraint(1f))
+                .setHeight(new RelativeConstraint(0.049f))
+                .setChildOf(containerBox);
+}
 
         JsonObject abilitiesJsonObject = item.get("abilities").getAsJsonObject();
 
