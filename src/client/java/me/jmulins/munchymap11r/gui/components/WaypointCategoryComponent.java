@@ -189,6 +189,9 @@ public class WaypointCategoryComponent extends UIContainer {
      * Add a waypoint with custom color
      */
     public WaypointCategoryComponent addWaypoint(String waypointName, int x, int y, int z, Color color) {
+        if (isCollapsed()){
+            uncollapseCategory();
+        }
         WaypointComponent waypoint = new WaypointComponent(waypointName, x, y, z, color);
         waypoint.setChildOf(waypointsContainer);
         waypoints.add(waypoint);
@@ -220,20 +223,36 @@ public class WaypointCategoryComponent extends UIContainer {
     }
 
     public void uncollapseCategory(){
-        List<WaypointModel> waypointModels = PhelperWaypointConfig.INSTANCE.findCategory(getUuid().toString()).waypoints;
+        List<WaypointModel> waypointModels = PhelperWaypointConfig.INSTANCE.findCategory(getUuid().toString()) == null ?
+                new ArrayList<>() :
+                PhelperWaypointConfig.INSTANCE.findCategory(getUuid().toString()).waypoints;
 
-        for (WaypointModel waypointModel : waypointModels) {
-            WaypointComponent waypoint = new WaypointComponent(waypointModel.name, waypointModel.x, waypointModel.y, waypointModel.z, Color.GREEN);
-            waypoint.setChildOf(waypointsContainer);
+//if (!waypointModels.isEmpty()) {
+//    for (WaypointModel waypointModel : waypointModels) {
+//        WaypointComponent waypoint = new WaypointComponent(waypointModel.name, waypointModel.x, waypointModel.y, waypointModel.z, Color.GREEN);
+//        waypoint.setChildOf(waypointsContainer);
+//
+//        waypoint.setOnRemove(() -> {
+//            removeWaypoint(waypoint);
+//        });
+//
+//
+////            updateContainerHeight();
+//    }
 
-            waypoint.setOnRemove(() -> {
-                removeWaypoint(waypoint);
-            });
+//} else {
+    for (WaypointComponent component : waypoints) {
+        component.setChildOf(waypointsContainer);
 
-            updateContainerHeight();
-        }
+        component.setOnRemove(() -> {
+            removeWaypoint(component);
+        });
+
+    }
+//}
 
         collapseButton.setText("Collapse");
+        updateContainerHeight();
         realignHeaderButtons();
         collapsed = false;
     }
