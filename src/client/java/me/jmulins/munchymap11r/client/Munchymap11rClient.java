@@ -1,15 +1,19 @@
 package me.jmulins.munchymap11r.client;
 
+import me.jmulins.munchymap11r.Munchymap11r;
 import me.jmulins.munchymap11r.commands.ItemGuideCommand;
 import me.jmulins.munchymap11r.commands.PhelperCommand;
 import me.jmulins.munchymap11r.commands.PhelperWaypointsCommand;
 import me.jmulins.munchymap11r.config.PhelperConfig;
 import me.jmulins.munchymap11r.utils.TitleUtils;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Identifier;
 
 
 public class Munchymap11rClient implements ClientModInitializer {
@@ -26,6 +30,9 @@ public class Munchymap11rClient implements ClientModInitializer {
         ItemGuideCommand.execute();
 
         registerPickaxeHitEvent();
+//        HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT, Identifier.of(Munchymap11r.MOD_ID, "before_chat"), HudRenderingEntrypoint::render);
+
+        WaypointRenderer.register();
 
     }
 
