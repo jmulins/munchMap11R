@@ -90,11 +90,11 @@ public class PhelperWaypointConfig {
      * Find category by UUID
      */
     public WaypointCategoryModel findCategory(String uuid) {
-        for (WaypointCategoryModel category : waypointCategories) {
-            if (category.uuid.equals(uuid)) {
-                return category;
+            for (WaypointCategoryModel category : waypointCategories) {
+                if (category.uuid.equals(uuid)) {
+                    return category;
+                }
             }
-        }
         return null;
     }
 

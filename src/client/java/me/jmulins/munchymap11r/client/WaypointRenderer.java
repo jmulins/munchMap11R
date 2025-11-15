@@ -32,7 +32,7 @@ public class WaypointRenderer {
             int backgroundColor = 0x50000000;
             int textColor = 0xFFFFFFFF;
 
-            int x =140, y = 71, z = -28;
+            double x =138.5, y = 72, z = -27.5;
 
             // You can use the Util.getMeasuringTimeMs() function to get the current time in milliseconds.
             // Divide by 1000 to get seconds.
@@ -55,24 +55,67 @@ public class WaypointRenderer {
 
 
 
-            float yaw = player.getHeadYaw(); // -180 to 180
+            float yaw = client.gameRenderer.getCamera().getCameraYaw(); // -180 to 180
             float pitch = player.getPitch(); // -90 to 90
 
-            float borderedYaw;
+//            float borderedYaw = yaw > 0 ? ((yaw+180)%360) - 180 : ((yaw-180)%360) + 180;
 
-            if (yaw < 0) {
-                if (Math.floorDiv((int) yaw, 180) %2 == 1 ){
-                    borderedYaw = -yaw%180;
-                }
-
-            }
+            float yaw360 = yaw + 180;
+//            if (yaw < 0) {
+//
+//                if (Math.floorDivExact((int) yaw, 180) %2 == -1 ){
+//                    borderedYaw = (yaw%180);
+//                } else {
+//                    borderedYaw = 180 + (yaw%180);
+//                }
+//
+//
+//            } else {
+//                if (Math.floorDiv((int) yaw, 180) %2 == 1 ) {
+//                    borderedYaw =  -yaw%180;
+//                }
+//
+//            }
 
             int windowWidth = client.getWindow().getScaledWidth();
             int windowHeight = client.getWindow().getScaledHeight();
 
+//            System.out.println(yaw360);
+
+            Camera cam = client.gameRenderer.getCamera();
+
+            Vec3d vectorPlayerBlock = new Vec3d(x-player.getX(),y-player.getY(),z-player.getZ());
+
+//            System.out.println(player.lastX);
+
+            Vec3d playerVector = player.getRotationVecClient();
 
 
-//            context.drawText(MinecraftClient.getInstance().textRenderer, "test", (int) yaw, (int) pitch, textColor, false);
+//Vec3d vecCalculated = new Vec3d(Math.sin((yaw360*2*Math.PI)/360)*Math.cos((pitch*2*Math.PI)/360), -Math.sin((pitch*2*Math.PI)/360), -Math.cos((yaw360*2*Math.PI)/360)*Math.cos((pitch*2*Math.PI)/360));
+
+//            Vec3d caLa = playerVector.add(vecValentin.multiply(-1));
+
+//            System.out.println(client.options.getFov().getValue());
+
+            int fov = client.options.getFov().getValue();
+
+
+            Vec3d vectorPlayerBlockZeroY = new Vec3d(vectorPlayerBlock.toVector3f()).multiply(1, 0, 1);
+            Vec3d playerVectorZeroY = new Vec3d(playerVector.toVector3f()).multiply(1, 0, 1);
+
+
+
+            double ingameWidthScreen = Math.tan(((double) fov /2)*(Math.PI/180)) * vectorPlayerBlockZeroY.dotProduct(playerVectorZeroY)*2*2;
+            double ingameWidthBlock = vectorPlayerBlockZeroY.crossProduct(playerVectorZeroY).length();
+            double windowWidthBlock = windowWidth*ingameWidthBlock/ingameWidthScreen;
+            int signe = (int)(vectorPlayerBlockZeroY.crossProduct(playerVectorZeroY).normalize().getY());
+
+
+
+//            System.out.println(ingameWidthScreen);
+
+//            context.drawText(MinecraftClient.getInstance().textRenderer, playerVector.toString(),  0, windowHeight/2-10, textColor, false);
+            context.drawText(MinecraftClient.getInstance().textRenderer, "test",  (int)((windowWidth/2) + (signe* windowWidthBlock)), (int) pitch, textColor, false);
         });
 
 
